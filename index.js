@@ -7,21 +7,28 @@ const map = require('broccoli-stew').map;
 module.exports = {
   name: 'ember-cli-bugsnag-reporter',
 
-  config(environment, appConfig) {
-    const options = appConfig.bugsnag || {};
+  config: function(environment, appConfig) {
+    const options = appConfig['bugsnag-reporter'] || {};
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
 
-    appConfig.bugsnag = options;
+    appConfig['bugsnag-reporter'] = options;
 
     return appConfig;
   },
 
-  included() {
+  included: function() {
+    // Remove bugsnag-js from the build
+    if (this.useDummyService === true) {
+      this.options.autoImport = {
+        exclude: ['bugsnag-js']
+      }
+    }
+
     this._super.included.apply(this, arguments);
   },
   // Rename the service 'bugsnag-dummy' in 'bugsnag' if needed
-  treeFor(name) {
+  treeFor: function(name) {
     if (name === 'addon' || name === 'app') {
       return map(this._super.treeFor.apply(this, arguments), (content) => {
         return content.replace('/bugsnag-dummy', '/bugsnag');
