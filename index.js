@@ -10,10 +10,10 @@ module.exports = {
   config: function(environment, appConfig) {
     const options = appConfig['bugsnag-reporter'] || {};
     options.notifyReleaseStages = options.notifyReleaseStages || [];
+    options.releaseStage = options.releaseStage || environment;
     this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
 
     appConfig['bugsnag-reporter'] = options;
-
     return appConfig;
   },
 
