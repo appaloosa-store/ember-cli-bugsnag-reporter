@@ -1,5 +1,6 @@
 import Service from "@ember/service";
 import bugsnag from "bugsnag-js";
+import smartMerge from '../utils/smartMerge';
 
 export default Service.extend({
   __client: null,
@@ -34,17 +35,6 @@ export default Service.extend({
   _setupClient() {
     // all options can be found here https://docs.bugsnag.com/platforms/browsers/js/configuration-options
     const client =  bugsnag(this.options);
-    // const client =  bugsnag({
-    //   apiKey: this.options.apiKey,
-    //   // apiKey: ENV.bugsnag.apiKey,
-    //   autoBreadcrumbs: false,
-    //   autoNotify: false,
-    //   interactionBreadcrumbsEnabled: true,
-    //   notifyReleaseStages: ["test"],
-    //   // notifyReleaseStages: ENV.bugsnag.notifyReleaseStages,
-    //   releaseStage: "test"
-    //   // releaseStage: ENV.environment
-    // });
     this.client = client;
   },
 
@@ -58,19 +48,21 @@ export default Service.extend({
   },
 
   __getOptions(options) {
-    // const { id, email, fullName } = this.current.user;
-    const defaultOptions = {
-      // user: {
-      //   id: id,
-      //   email: email,
-      //   fullName: fullName
-      // },
-      // store: { // never sent ><
-      //   id: this.current.store.id,
-      //   name: this.current.store.name
-      // },
+    const defaultOptions = this.__getDefaultOptions();
+    options = smartMerge(defaultOptions, options);
+    return Object.assign({}, defaultOptions, options);
+  },
+
+  __getDefaultOptions() {
+    let options = {
       severity: "error"
     };
-    return Object.assign(defaultOptions, options);
+    if (this.meta.getUser) {
+      options.user = this.meta.getUser();
+    }
+    if (this.meta.getMetaData) {
+      options.metaData = this.meta.getMetaData();
+    }
+    return options;
   }
 });

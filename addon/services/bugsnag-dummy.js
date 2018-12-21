@@ -1,4 +1,5 @@
 import Service from "@ember/service";
+import smartMerge from "../utils/smartMerge";
 
 export default Service.extend({
 
@@ -18,6 +19,26 @@ export default Service.extend({
   notify(error, options = {}) {
     // eslint-disable-next-line no-console
     const logger = console[options.severity] || console.info;
-    logger(error, options);
+    logger(error, this.__getOptions(options));
+  },
+
+  __getOptions(options) {
+    const defaultOptions = this.__getDefaultOptions();
+    options = smartMerge(defaultOptions, options);
+    return Object.assign({}, defaultOptions, options);
+  },
+
+  __getDefaultOptions() {
+    let options = {
+      severity: "error"
+    };
+    if (this.meta.getUser) {
+      options.user = this.meta.getUser();
+    }
+    if (this.meta.getMetaData) {
+      options.metaData = this.meta.getMetaData();
+    }
+    return options;
   }
+
 });
