@@ -20,6 +20,7 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
+    "bugsnag-js": "4.7.3",
     "ember-cli-babel": "^6.6.0"
   },
   "devDependencies": {
