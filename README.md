@@ -19,19 +19,19 @@ By default all ember errors are automatically reported to bugsnag you have nothi
 If you need to manually report bugsnag's event you should use the service `bugsnag` that is exposed by this addon.
 The service as 4 methods you can use to report events :
 
-### `error(name: string | Error, metaData: null | object)`
+### `error(name: string | Error, metaData?: object)`
 
-Report a bugsnag's event with the severity set to `error`.
+Report a bugsnag's event with the severity set to `error`. You can include some extra data to the report with the second param `metaData` (see the bugsnag's [doc](https://docs.bugsnag.com/platforms/javascript/ember/#custom-diagnostics)).
 
-### `warning(name: string | Error, metaData: null | object)`
+### `warning(name: string | Error, metaData?: object)`
 
-Report a bugsnag's event with the severity set to `warning`.
+Report a bugsnag's event with the severity set to `warning`. You can include some extra data to the report with the second param `metaData` (see the bugsnag's [doc](https://docs.bugsnag.com/platforms/javascript/ember/#custom-diagnostics)).
 
-### `info(name: string | Error, metaData: null | object)`
+### `info(name: string | Error, metaData?: object)`
 
-Report a bugsnag's event with the severity set to `info`.
+Report a bugsnag's event with the severity set to `info`. You can include some extra data to the report with the second param `metaData` (see the bugsnag's [doc](https://docs.bugsnag.com/platforms/javascript/ember/#custom-diagnostics)).
 
-### `notify(name: string | Error, options: null | object)`
+### `notify(name: string | Error, options?: object)`
 
 For this one have a look to this [page](https://docs.bugsnag.com/platforms/javascript/ember/reporting-handled-errors/).
 
