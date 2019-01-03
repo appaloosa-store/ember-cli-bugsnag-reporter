@@ -1,13 +1,22 @@
 {
   "name": "ember-cli-bugsnag-reporter",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.1.0",
+  "description": "Integrates Bugsnag reporting service into your Ember CLI app.",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "bugsnag",
+    "error reporting"
   ],
-  "repository": "",
-  "license": "MIT",
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/appaloosa-store/ember-cli-bugsnag-reporter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/appaloosa-store/ember-cli-bugsnag-reporter/issues"
+  },
+  "homepage": "https://github.com/appaloosa-store/ember-cli-bugsnag-reporter/blob/master/README.MD",
+  "license": "Apache-2.0",
+  "author": "appaloosa",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -52,7 +61,7 @@
     "loader.js": "^4.2.3"
   },
   "engines": {
-    "node": "^4.5 || 6.* || >= 7.*"
+    "node": "^4.5 || 6.* || 7.* || 8.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
