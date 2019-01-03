@@ -16,6 +16,10 @@ module.exports = function(environment) {
         Date: false
       }
     },
+    'bugsnag-reporter': {
+      'apiKey': process.env.BUGSNAG_KEY || '',
+      'notifyReleaseStages': ['staging', 'integration', 'production']
+    },
 
     APP: {
       // Here you can pass flags/options to your application instance
