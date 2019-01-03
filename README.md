@@ -4,15 +4,11 @@ This addon goal is to make it easy the integration of [bugsnag](https://www.bugs
 
 ## Installation
 
-------------------------------------------------------------------------------
-
 ```shell
 ember install ember-cli-bugsnag-reporter
 ```
 
 ## Reporting events
-
-------------------------------------------------------------------------------
 
 By default all ember errors are automatically reported to bugsnag you have nothing to do.
 
