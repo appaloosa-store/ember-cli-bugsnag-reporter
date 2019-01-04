@@ -32,8 +32,12 @@ export default Service.extend({
     let options = {
       severity: "error"
     };
-    options.user = this.meta.getUser();
-    options.metaData = this.meta.getMetaData();
+    if (this.meta.getUser) {
+      options.user = this.meta.getUser();
+    }
+    if (this.meta.getMetaData) {
+      options.metaData = this.meta.getMetaData();
+    }
     return options;
   }
 
