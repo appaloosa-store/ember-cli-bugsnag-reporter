@@ -16,11 +16,14 @@ module.exports = {
   config: function(environment, appConfig) {
     const options = appConfig['bugsnag-reporter'] || {};
 
-    this.__checkApiKeyPresence(options);
-
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     options.releaseStage = options.releaseStage || environment;
+
     this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
+
+    if (this.useDummyService === false) {
+      this.__checkApiKeyPresence(options);
+    }
 
     appConfig['bugsnag-reporter'] = options;
 
