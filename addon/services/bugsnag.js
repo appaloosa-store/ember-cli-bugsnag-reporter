@@ -1,6 +1,7 @@
 import Service from "@ember/service";
 import bugsnag from "bugsnag-js";
 import smartMerge from '../utils/smartMerge';
+import { getOwner } from '@ember/application';
 
 export default Service.extend({
   __client: null,
@@ -57,8 +58,12 @@ export default Service.extend({
     let options = {
       severity: "error"
     };
-    options.user = this.meta.getUser();
-    options.metaData = this.meta.getMetaData();
+    if (this.meta.getUser) {
+      options.user = this.meta.getUser(getOwner(this));
+    }
+    if (this.meta.getMetaData) {
+      options.metaData = this.meta.getMetaData(getOwner(this));
+    }
     return options;
   }
 });

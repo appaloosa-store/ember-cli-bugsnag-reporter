@@ -64,14 +64,18 @@ The options you can set are listed [here](https://docs.bugsnag.com/platforms/jav
 
 In order to send additional data along with errors reported to Bugsnag, generate a utility named bugsnag:
 
+```shell
 ember g util bugsnag
+```
+
+_Both function takes the container as an argument._
 
 ### Custom Diagnostics (docs)
 
 To send custom meta data, define a helper method getMetaData in the app/utils/bugsnag.js you created. getMetaData takes the error and the container as arguments, e.g.:
 
 ```javascript
-export function getMetaData() {
+export function getMetaData(/* appInstance */) {
   return {
     // …some meta data
   };
@@ -95,11 +99,12 @@ return {
 To correlate a specific user to an error and have the information appear in the User tab in the Bugsnag UI, send user data with each error data. Define a helper method getUser in the app/utils/bugsnag.js you created.
 
 ```javascript
-export function getUser() {
+export function getUser(appInstance) {
+  const user = appInstance.lookup('service:current-user').getUser();
   return {
-    email: "mail@mail.com",
-    id: "1",
-    name: "Name name"
+    email: user.email,
+    id: user.id,
+    name: user.name
   };
 }
 ```
