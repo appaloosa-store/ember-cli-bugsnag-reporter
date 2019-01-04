@@ -7,13 +7,27 @@ const map = require('broccoli-stew').map;
 module.exports = {
   name: 'ember-cli-bugsnag-reporter',
 
+  __checkApiKeyPresence(options) {
+    if (options.apiKey !== undefined || options.apiKey !== null || options.apiKey.trim() !== "") {
+      throw new Error("ember-cli-bugsnag-reporter requires a value for ENV['bugsnag-reporter']['apiKey']");
+    }
+  },
+
   config: function(environment, appConfig) {
     const options = appConfig['bugsnag-reporter'] || {};
+
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     options.releaseStage = options.releaseStage || environment;
+
     this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
 
+    if (this.useDummyService === false) {
+      this.__checkApiKeyPresence(options);
+    }
+
     appConfig['bugsnag-reporter'] = options;
+
+
     return appConfig;
   },
 
