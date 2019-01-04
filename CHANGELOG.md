@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+
+- FIX: Import of utils function no longer fail if only one function is defined in `utils/bugsnag.js`
+- ENHANCEMENT: Send app instance to utils function to permit the use of services in those functions.
+
 ## 0.2.0
 
 - ENHANCEMENT: Throw an error to fail the build when `apiKey` is not defined, but only if the build environnement is listed in `notifyReleaseStages`.
