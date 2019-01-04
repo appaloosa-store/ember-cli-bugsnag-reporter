@@ -1,7 +1,7 @@
-export function getMetaData() {
+export function getMetaData(/* appInstance */) {
   return {}
 }
 
-export function getUser() {
+export function getUser(/* appInstance */) {
   return {}
 }
