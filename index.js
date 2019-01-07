@@ -8,7 +8,7 @@ module.exports = {
   name: 'ember-cli-bugsnag-reporter',
 
   __checkApiKeyPresence(options) {
-    if (options.apiKey !== undefined || options.apiKey !== null || options.apiKey.trim() !== "") {
+    if (options.apiKey === undefined || options.apiKey === null || options.apiKey.trim() === "") {
       throw new Error("ember-cli-bugsnag-reporter requires a value for ENV['bugsnag-reporter']['apiKey']");
     }
   },
