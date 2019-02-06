@@ -1,5 +1,5 @@
 import Service from "@ember/service";
-import bugsnag from "bugsnag-js";
+import bugsnag from "@bugsnag/js";
 import smartMerge from '../utils/smartMerge';
 import { getOwner } from '@ember/application';
 
