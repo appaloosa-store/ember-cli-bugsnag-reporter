@@ -32,10 +32,10 @@ module.exports = {
   },
 
   included: function() {
-    // Remove bugsnag-js from the build
+    // Remove @bugsnag/js from the build
     if (this.useDummyService === true) {
       this.options.autoImport = {
-        exclude: ['bugsnag-js']
+        exclude: ['@bugsnag/js']
       }
     }
 

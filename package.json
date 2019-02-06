@@ -29,8 +29,8 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
+    "@bugsnag/js": "5.2.0",
     "broccoli-stew": "2.0.1",
-    "bugsnag-js": "4.7.3",
     "ember-auto-import": "1.2.19",
     "ember-cli-babel": "^6.6.0"
   },
