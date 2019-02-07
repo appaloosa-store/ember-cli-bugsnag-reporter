@@ -15,44 +15,32 @@ module.exports = {
 
   config: function(environment, appConfig) {
     const options = appConfig['bugsnag-reporter'] || {};
-    console.log(JSON.stringify(options))
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     options.releaseStage = options.releaseStage || environment;
-    console.log(JSON.stringify(options))
-    console.log(environment)
-
-    this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
-
-    console.log(`Use dummy service: ${this.useDummyService}`);
-    if (this.useDummyService === false) {
-      this.__checkApiKeyPresence(options);
-    }
 
     appConfig['bugsnag-reporter'] = options;
+    this.options = options;
 
     return appConfig;
   },
 
-  __shouldIncludeDummyService() {
-
+  __shouldIncludeDummyService(environment) {
+    this.useDummyService = this.options = this.notifyReleaseStages.indexOf(environment) === -1;
+    return this.useDummyService;
   },
 
   included: function(app) {
-    console.log(`Environment: ${app.env}`);
-    console.log(JSON.stringify(this))
-    console.log(`[included] Use dummy service: ${this.useDummyService}`);
     // Remove @bugsnag/js from the build
-    // if (this.useDummyService === true) {
-    //   this.options.autoImport = {
-    //     exclude: ['@bugsnag/js']
-    //   }
-    // }
+    if (this.__shouldIncludeDummyService(app.env) === true) {
+      this.__checkApiKeyPresence(this.options);
+      this.options.autoImport = {
+        exclude: ['@bugsnag/js']
+      }
+    }
     this._super.included.apply(this, arguments);
-
   },
   // Rename the service 'bugsnag-dummy' in 'bugsnag' if needed
   treeFor: function(name) {
-    console.log('treeFor')
     if (name === 'addon' || name === 'app') {
       return map(this._super.treeFor.apply(this, arguments), (content) => {
         return content.replace('/bugsnag-dummy', '/bugsnag');
@@ -62,7 +50,6 @@ module.exports = {
   },
   // remove unwanted service depending on the value of `useDummyService`
   treeForAddon: function() {
-    console.log('treeForAddon')
     // see: https://github.com/ember-cli/ember-cli/issues/4463
     let tree = this._super.treeForAddon.apply(this, arguments);
 
