@@ -34,6 +34,7 @@ module.exports = {
   },
 
   included: function() {
+    console.log(JSON.stringify(arguments));
     console.log(`[included] Use dummy service: ${this.useDummyService}`);
     // Remove @bugsnag/js from the build
     // if (this.useDummyService === true) {
