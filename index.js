@@ -34,7 +34,6 @@ module.exports = {
   },
 
   included: function() {
-    console.log(JSON.stringify(arguments));
     console.log(`[included] Use dummy service: ${this.useDummyService}`);
     // Remove @bugsnag/js from the build
     // if (this.useDummyService === true) {
@@ -47,6 +46,7 @@ module.exports = {
   },
   // Rename the service 'bugsnag-dummy' in 'bugsnag' if needed
   treeFor: function(name) {
+    console.log('treeFor')
     if (name === 'addon' || name === 'app') {
       return map(this._super.treeFor.apply(this, arguments), (content) => {
         return content.replace('/bugsnag-dummy', '/bugsnag');
@@ -56,6 +56,7 @@ module.exports = {
   },
   // remove unwanted service depending on the value of `useDummyService`
   treeForAddon: function() {
+    console.log('treeForAddon')
     // see: https://github.com/ember-cli/ember-cli/issues/4463
     let tree = this._super.treeForAddon.apply(this, arguments);
 
