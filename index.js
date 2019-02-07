@@ -25,7 +25,7 @@ module.exports = {
   },
 
   __shouldIncludeDummyService(environment) {
-    this.useDummyService = this.options = this.notifyReleaseStages.indexOf(environment) === -1;
+    this.useDummyService = this.options.notifyReleaseStages.indexOf(environment) === -1;
     return this.useDummyService;
   },
 
