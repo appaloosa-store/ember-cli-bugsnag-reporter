@@ -14,19 +14,21 @@ module.exports = {
   },
 
   config: function(environment, appConfig) {
+    console.log('message de test')
     const options = appConfig['bugsnag-reporter'] || {};
 
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     options.releaseStage = options.releaseStage || environment;
+    console.log('message de test')
 
     this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
 
+    console.log('message de test')
     if (this.useDummyService === false) {
       this.__checkApiKeyPresence(options);
     }
 
     appConfig['bugsnag-reporter'] = options;
-
 
     return appConfig;
   },
