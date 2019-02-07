@@ -19,6 +19,7 @@ module.exports = {
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     options.releaseStage = options.releaseStage || environment;
     console.log(JSON.stringify(options))
+    console.log(environment)
 
     this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
 
