@@ -15,30 +15,28 @@ module.exports = {
 
   config: function(environment, appConfig) {
     const options = appConfig['bugsnag-reporter'] || {};
-
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     options.releaseStage = options.releaseStage || environment;
 
-    this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
-
-    if (this.useDummyService === false) {
-      this.__checkApiKeyPresence(options);
-    }
-
     appConfig['bugsnag-reporter'] = options;
-
+    this.options = options;
 
     return appConfig;
   },
 
-  included: function() {
+  __shouldIncludeDummyService(environment) {
+    this.useDummyService = this.options.notifyReleaseStages.indexOf(environment) === -1;
+    return this.useDummyService;
+  },
+
+  included: function(app) {
     // Remove @bugsnag/js from the build
-    if (this.useDummyService === true) {
+    if (this.__shouldIncludeDummyService(app.env) === true) {
+      this.__checkApiKeyPresence(this.options);
       this.options.autoImport = {
         exclude: ['@bugsnag/js']
       }
     }
-
     this._super.included.apply(this, arguments);
   },
   // Rename the service 'bugsnag-dummy' in 'bugsnag' if needed
