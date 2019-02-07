@@ -33,7 +33,13 @@ module.exports = {
     return appConfig;
   },
 
-  included: function() {
+  __shouldIncludeDummyService() {
+
+  },
+
+  included: function(app) {
+    console.log(`Environment: ${app.env}`);
+    console.log(JSON.stringify(this))
     console.log(`[included] Use dummy service: ${this.useDummyService}`);
     // Remove @bugsnag/js from the build
     // if (this.useDummyService === true) {
@@ -41,8 +47,8 @@ module.exports = {
     //     exclude: ['@bugsnag/js']
     //   }
     // }
-
     this._super.included.apply(this, arguments);
+
   },
   // Rename the service 'bugsnag-dummy' in 'bugsnag' if needed
   treeFor: function(name) {
