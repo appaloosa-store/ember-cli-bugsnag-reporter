@@ -14,16 +14,15 @@ module.exports = {
   },
 
   config: function(environment, appConfig) {
-    console.log('message de test')
     const options = appConfig['bugsnag-reporter'] || {};
-
+    console.log(JSON.stringify(options))
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     options.releaseStage = options.releaseStage || environment;
-    console.log('message de test')
+    console.log(JSON.stringify(options))
 
     this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
 
-    console.log('message de test')
+    console.log(`Use dummy service: ${this.useDummyService}`);
     if (this.useDummyService === false) {
       this.__checkApiKeyPresence(options);
     }
@@ -34,6 +33,7 @@ module.exports = {
   },
 
   included: function() {
+    console.log(`[included] Use dummy service: ${this.useDummyService}`);
     // Remove @bugsnag/js from the build
     // if (this.useDummyService === true) {
     //   this.options.autoImport = {
