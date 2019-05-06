@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0
+
+- BUILD: Drop node 6
+- REFACTOR: Stop rewritting addon config to fix ember-cli warning message
+
+## 0.3.6
+
+- FIX: Replace `bugsnag-js` package with `@bugsnag/js` package
+
+## 0.3.2
+
+- FIX: Don't throw an error when API_KEY is not null
+
 ## 0.3.0
 
 - FIX: Import of utils function no longer fail if only one function is defined in `utils/bugsnag.js`
