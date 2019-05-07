@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.2
+
+- FIX: Throw missing apiKey error when apiKey error is missing on releage stages
+
 ## 0.4.0
 
 - BUILD: Drop node 6
