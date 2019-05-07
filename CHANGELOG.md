@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.2
+## 0.4.2/0.4.3
 
 - FIX: Throw missing apiKey error when apiKey error is missing on releage stages
 
