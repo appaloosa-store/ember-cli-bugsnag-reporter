@@ -20,12 +20,13 @@ module.exports = {
 
     appConfig['bugsnag-reporter'] = options;
     this.notifyReleaseStages = options.notifyReleaseStages;
+    this.releaseStage = options.releaseStage;
     this.apiKey = options.apiKey;
     return appConfig;
   },
 
-  __shouldIncludeDummyService(environment) {
-    this.useDummyService = this.notifyReleaseStages.indexOf(environment) === -1;
+  __shouldIncludeDummyService() {
+    this.useDummyService = this.notifyReleaseStages.indexOf(this.releaseStage) === -1;
     return this.useDummyService;
   },
 
