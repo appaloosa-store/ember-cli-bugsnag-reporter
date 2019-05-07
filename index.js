@@ -32,10 +32,11 @@ module.exports = {
   included: function(app) {
     // Remove @bugsnag/js from the build
     if (this.__shouldIncludeDummyService(app.env) === true) {
-      this.__checkApiKeyPresence(this.apiKey);
       this.options.autoImport = {
         exclude: ['@bugsnag/js']
       }
+    } else {
+      this.__checkApiKeyPresence(this.apiKey);
     }
     this._super.included.apply(this, arguments);
   },
