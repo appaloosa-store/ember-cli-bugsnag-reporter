@@ -7,39 +7,38 @@ const map = require('broccoli-stew').map;
 module.exports = {
   name: 'ember-cli-bugsnag-reporter',
 
-  __checkApiKeyPresence(options) {
-    if (options.apiKey === undefined || options.apiKey === null || options.apiKey.trim() === "") {
+  __checkApiKeyPresence(apiKey) {
+    if (apiKey === undefined || apiKey === null || apiKey.trim() === "") {
       throw new Error("ember-cli-bugsnag-reporter requires a value for ENV['bugsnag-reporter']['apiKey']");
     }
   },
 
   config: function(environment, appConfig) {
     const options = appConfig['bugsnag-reporter'] || {};
-
     options.notifyReleaseStages = options.notifyReleaseStages || [];
     options.releaseStage = options.releaseStage || environment;
 
-    this.useDummyService = options.notifyReleaseStages.indexOf(environment) === -1;
-
-    if (this.useDummyService === false) {
-      this.__checkApiKeyPresence(options);
-    }
-
     appConfig['bugsnag-reporter'] = options;
-
-
+    this.notifyReleaseStages = options.notifyReleaseStages;
+    this.apiKey = options.apiKey;
     return appConfig;
   },
 
-  included: function() {
-    // Remove bugsnag-js from the build
-    if (this.useDummyService === true) {
-      this.options.autoImport = {
-        exclude: ['bugsnag-js']
-      }
-    }
+  __shouldIncludeDummyService(environment) {
+    this.useDummyService = this.notifyReleaseStages.indexOf(environment) === -1;
+    return this.useDummyService;
+  },
 
+  included: function(app) {
     this._super.included.apply(this, arguments);
+    // Remove @bugsnag/js from the build
+    if (this.__shouldIncludeDummyService(app.env) === true) {
+      this.options.autoImport = {
+        exclude: ['@bugsnag/js']
+      }
+    } else {
+      this.__checkApiKeyPresence(this.apiKey);
+    }
   },
   // Rename the service 'bugsnag-dummy' in 'bugsnag' if needed
   treeFor: function(name) {
