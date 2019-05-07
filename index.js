@@ -30,6 +30,7 @@ module.exports = {
   },
 
   included: function(app) {
+    this._super.included.apply(this, arguments);
     // Remove @bugsnag/js from the build
     if (this.__shouldIncludeDummyService(app.env) === true) {
       this.options.autoImport = {
@@ -38,7 +39,6 @@ module.exports = {
     } else {
       this.__checkApiKeyPresence(this.apiKey);
     }
-    this._super.included.apply(this, arguments);
   },
   // Rename the service 'bugsnag-dummy' in 'bugsnag' if needed
   treeFor: function(name) {
