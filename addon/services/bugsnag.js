@@ -4,6 +4,7 @@ import smartMerge from '../utils/smartMerge';
 import { getOwner } from '@ember/application';
 
 export default Service.extend({
+
   __client: null,
 
   init() {
@@ -34,6 +35,17 @@ export default Service.extend({
   },
 
   _setupClient() {
+    if (navigator === null) {
+      /* eslint-disable no-console */
+      console.warn("This addon does not work with fastboot at the moment, all logs will be redirected to the console");
+      this.client = {
+        notify(error, options) {
+          const logger = console[options.severity] || console.info;
+          logger(error, this.__getOptions(options));
+        }
+      }
+      /* eslint-enable no-console */
+    }
     // all options can be found here https://docs.bugsnag.com/platforms/browsers/js/configuration-options
     const client =  bugsnag(this.options);
     this.client = client;
