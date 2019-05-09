@@ -4,8 +4,6 @@ import { getOwner } from '@ember/application';
 
 export default Service.extend({
 
-  __client: null,
-
   init() {
     this._setupClient();
     this._super(...arguments);
@@ -33,21 +31,29 @@ export default Service.extend({
     return this.__send(error, options);
   },
 
-  _setupClient() {
-    if (window.navigator === null) {
+  __nodeSetup() {
+    try {
+      /* eslint-disable no-undef */
+      let bugsnag = Fastboot.require("@bugsnag/node");
+      /* eslint-enable no-undef */
+      return bugsnag(this.options);
+    } catch (error) {
       /* eslint-disable no-console */
-
-      console.warn("This addon does not work with fastboot at the moment, all logs will be redirected to the console");
-      return this.client = {
-        notify: (error, options) => {
-          const logger = console[options.severity] || console.info;
-          logger(error, this.__getOptions(options));
-        }
-      }
+      console.error("It seems that you are running your app on node side, if you are using Fastboot make sure you've configured your app correctly");
       /* eslint-enable no-console */
+      return {
+        notify() {}
+      }
     }
+  },
+
+  _setupClient() {
+    if (!window.navigator) {
+      this.client = this.__nodeSetup();
+    }
+
     // all options can be found here https://docs.bugsnag.com/platforms/browsers/js/configuration-options
-    this.client = Promise.resolve(import("@bugsnag/js"))
+    this.client = Promise.resolve(import("@bugsnag/browser"))
                     .then(module => module.default)
                     .then(bugsnag => {
                       let client = bugsnag(this.options);
