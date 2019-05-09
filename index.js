@@ -7,6 +7,8 @@ const map = require('broccoli-stew').map;
 module.exports = {
   name: 'ember-cli-bugsnag-reporter',
 
+  notifyReleaseStages: [],
+
   __checkApiKeyPresence(apiKey) {
     if (apiKey === undefined || apiKey === null || apiKey.trim() === "") {
       throw new Error("ember-cli-bugsnag-reporter requires a value for ENV['bugsnag-reporter']['apiKey']");
@@ -34,9 +36,9 @@ module.exports = {
     this._super.included.apply(this, arguments);
     // Remove @bugsnag/js from the build
     if (this.__shouldIncludeDummyService() === true) {
-      this.options.autoImport = {
-        exclude: ['@bugsnag/js']
-      }
+      // this.options.autoImport = {
+      //   exclude: ['@bugsnag/js']
+      // }
     } else {
       this.__checkApiKeyPresence(this.apiKey);
     }
