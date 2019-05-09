@@ -39,7 +39,7 @@ export default Service.extend({
       return bugsnag(this.options);
     } catch (error) {
       /* eslint-disable no-console */
-      console.error("It seems that you are running your app on node side, if you are using Fastboot make sure you've configured your app correctly");
+      console.error("It seems that you are running your app on node side, if you are using Fastboot make sure you've configured your app correctly. Check the doc at https://github.com/appaloosa-store/ember-cli-bugsnag-reporter#fasboot");
       /* eslint-enable no-console */
       return {
         notify() {}

@@ -113,6 +113,17 @@ export function getUser(appInstance) {
 
 Uploading sourcemaps to Bugsnag makes it easier to track down errors in your code because the stacktrace for each error in the Bugsnag UI highlights the exact line in your unminified source code. To send sourcemaps Bugsnag, use the Ember CLI Deploy addon [ember-cli-deploy-bugsnag](https://github.com/binhums/ember-cli-bugsnag).
 
+### Fastboot
+
+This addon works with [Fastboot](http://ember-fastboot.com).
+To make it work you need to update your `package.json` file and add `@bugsnag/core` under `fastbootDependencies`.
+
+```json
+  "fastbootDependencies": [
+    "@bugsnag/node"
+  ]
+```
+
 ## Contributing
 
 ------------------------------------------------------------------------------
