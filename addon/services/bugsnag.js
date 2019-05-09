@@ -50,6 +50,7 @@ export default Service.extend({
   _setupClient() {
     if (!window.navigator) {
       this.client = this.__nodeSetup();
+      return;
     }
 
     // all options can be found here https://docs.bugsnag.com/platforms/browsers/js/configuration-options
