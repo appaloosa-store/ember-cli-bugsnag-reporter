@@ -67,5 +67,10 @@ module.exports = {
     }
     // var loggedApp = log(tree, { output: 'tree', label: 'my-app-name tree' });
     return tree;
+  },
+  options: {
+    babel: {
+      plugins: [ require.resolve('ember-auto-import/babel-plugin') ]
+    }
   }
 };

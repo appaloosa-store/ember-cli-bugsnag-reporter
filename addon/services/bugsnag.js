@@ -1,5 +1,4 @@
 import Service from "@ember/service";
-import bugsnag from "@bugsnag/js";
 import smartMerge from '../utils/smartMerge';
 import { getOwner } from '@ember/application';
 
@@ -35,11 +34,12 @@ export default Service.extend({
   },
 
   _setupClient() {
-    if (navigator === null) {
+    if (window.navigator === null) {
       /* eslint-disable no-console */
+
       console.warn("This addon does not work with fastboot at the moment, all logs will be redirected to the console");
-      this.client = {
-        notify(error, options) {
+      return this.client = {
+        notify: (error, options) => {
           const logger = console[options.severity] || console.info;
           logger(error, this.__getOptions(options));
         }
@@ -47,15 +47,22 @@ export default Service.extend({
       /* eslint-enable no-console */
     }
     // all options can be found here https://docs.bugsnag.com/platforms/browsers/js/configuration-options
-    const client =  bugsnag(this.options);
-    this.client = client;
+    this.client = Promise.resolve(import("@bugsnag/js"))
+                    .then(module => module.default)
+                    .then(bugsnag => {
+                      let client = bugsnag(this.options);
+                      this.client = client;
+                    });
   },
 
-  __send(error, options) {
+  async __send(error, options) {
     if (typeof error === "string") {
       error = new Error(error);
     }
     const notifyOptions = this.__getOptions(options);
+    if (this.client.then !== undefined) {
+      await this.client;
+    }
     this.client.notify(error, notifyOptions);
     // set(client, "breadcrumbs", []); // Cleanup breadcrumbs between notify (good idea or not ?)
   },
