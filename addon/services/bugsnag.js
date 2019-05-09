@@ -36,7 +36,7 @@ export default Service.extend({
   _setupClient() {
     if (window.navigator === null) {
       /* eslint-disable no-console */
-
+      let module = require('@bugsnag/node')
       console.warn("This addon does not work with fastboot at the moment, all logs will be redirected to the console");
       return this.client = {
         notify: (error, options) => {
@@ -46,6 +46,7 @@ export default Service.extend({
       }
       /* eslint-enable no-console */
     }
+
     // all options can be found here https://docs.bugsnag.com/platforms/browsers/js/configuration-options
     this.client = Promise.resolve(import("@bugsnag/js"))
                     .then(module => module.default)
