@@ -30,10 +30,10 @@ module.exports = {
     return this.useDummyService;
   },
 
-  included: function(app) {
+  included: function() {
     this._super.included.apply(this, arguments);
     // Remove @bugsnag/js from the build
-    if (this.__shouldIncludeDummyService(app.env) === true) {
+    if (this.__shouldIncludeDummyService() === true) {
       this.options.autoImport = {
         exclude: ['@bugsnag/js']
       }
