@@ -1,10 +1,8 @@
 import Service from "@ember/service";
-import bugsnag from "@bugsnag/js";
 import smartMerge from '../utils/smartMerge';
 import { getOwner } from '@ember/application';
 
 export default Service.extend({
-  __client: null,
 
   init() {
     this._setupClient();
@@ -33,17 +31,44 @@ export default Service.extend({
     return this.__send(error, options);
   },
 
-  _setupClient() {
-    // all options can be found here https://docs.bugsnag.com/platforms/browsers/js/configuration-options
-    const client =  bugsnag(this.options);
-    this.client = client;
+  __nodeSetup() {
+    try {
+      /* eslint-disable no-undef */
+      let bugsnag = Fastboot.require("@bugsnag/node");
+      /* eslint-enable no-undef */
+      return bugsnag(this.options);
+    } catch (error) {
+      /* eslint-disable no-console */
+      console.error("It seems that you are running your app on node side, if you are using Fastboot make sure you've configured your app correctly. Check the doc at https://github.com/appaloosa-store/ember-cli-bugsnag-reporter#fasboot");
+      /* eslint-enable no-console */
+      return {
+        notify() {}
+      }
+    }
   },
 
-  __send(error, options) {
+  _setupClient() {
+    if (!window.navigator) {
+      this.client = this.__nodeSetup();
+    }
+
+    // all options can be found here https://docs.bugsnag.com/platforms/browsers/js/configuration-options
+    this.client = Promise.resolve(import("@bugsnag/browser"))
+                    .then(module => module.default)
+                    .then(bugsnag => {
+                      let client = bugsnag(this.options);
+                      this.client = client;
+                    });
+  },
+
+  async __send(error, options) {
     if (typeof error === "string") {
       error = new Error(error);
     }
     const notifyOptions = this.__getOptions(options);
+    if (this.client.then !== undefined) {
+      await this.client;
+    }
     this.client.notify(error, notifyOptions);
     // set(client, "breadcrumbs", []); // Cleanup breadcrumbs between notify (good idea or not ?)
   },

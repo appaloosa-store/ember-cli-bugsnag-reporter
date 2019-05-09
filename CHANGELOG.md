@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+
+- FEAT: Add Fastboot support. It's now possible to report errors to bugsnag when the app run on fastboot side.
+- BUILD: Upgrade dependencies
+
 ## 0.4.2/0.4.3
 
 - FIX: Throw missing apiKey error when apiKey error is missing on releage stages

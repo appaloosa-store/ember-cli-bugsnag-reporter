@@ -1,1 +1,1 @@
-export { default } from "ember-cli-bugsnag-reporter/services/bugsnag";
+export { default } from "ember-cli-bugsnag-reporter/services/bugsnag-dummy";
