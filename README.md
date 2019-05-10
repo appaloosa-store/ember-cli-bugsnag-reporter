@@ -115,14 +115,7 @@ Uploading sourcemaps to Bugsnag makes it easier to track down errors in your cod
 
 ### Fastboot
 
-This addon works with [Fastboot](http://ember-fastboot.com).
-To make it work you need to update your `package.json` file and add `@bugsnag/core` under `fastbootDependencies`.
-
-```json
-  "fastbootDependencies": [
-    "@bugsnag/node"
-  ]
-```
+This addon works with [Fastboot](http://ember-fastboot.com) without any extra configuration.
 
 ## Contributing
 
