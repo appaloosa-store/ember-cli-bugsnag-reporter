@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2
+
+- FIX: Now the addon works perfectly in fastboot, without any extra configuration or random fail.
+
 ## 0.5.0
 
 - FEAT: Add Fastboot support. It's now possible to report errors to bugsnag when the app run on fastboot side.
