@@ -43,6 +43,12 @@ module.exports = {
       this.__checkApiKeyPresence(this.apiKey);
     }
   },
+
+  // Add node version of `bugsnag` into fastboot package.json manifest vendorFiles array
+  updateFastBootManifest(manifest) {
+    manifest.vendorFiles.push('ember-cli-bugsnag-reporter/bugsnag-fastboot.js');
+    return manifest;
+  },
   // Rename the service 'bugsnag-dummy' in 'bugsnag' if needed
   treeFor: function(name) {
     if (name === 'addon' || name === 'app') {
