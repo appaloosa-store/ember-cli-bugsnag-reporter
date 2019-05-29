@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+- FEAT: Add support for node 10
+
 ## 0.5.2
 
 - FIX: Now the addon works perfectly in fastboot, without any extra configuration or random fail.
