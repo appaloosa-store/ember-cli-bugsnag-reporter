@@ -2,6 +2,12 @@
 
 This addon goal is to make it easy the integration of [bugsnag](https://www.bugsnag.com) to an ember app.
 
+## Compatibility
+
+* Ember.js v3.4 or above
+* Ember CLI v2.13 or above
+* Node.js v8 or above
+
 ## Installation
 
 ```shell
